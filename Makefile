@@ -1,16 +1,17 @@
-TARGET 	:= build/ll
-CFLAGS 	?= -Wall -Wextra -pedantic
-SRCS	?= $(wildcard src/*.c)
-OBJS	?= $(SRCS:src/%.c=build/%.o)
+CC		?= cc
+CFLAGS 	?= -Wall -Wextra -pedantic -Werror
+SRC		:= lll.c
+OBJS	:= $(patsubst %.c, build/%.o, $(SRC))
+TARGET 	:= build/lll
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	gcc $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
-build/%.o: src/%.c
+build/%.o: %.c
 	mkdir -p $(dir $@)
-	gcc $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -rf build
